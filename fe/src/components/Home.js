@@ -1,38 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Add from "../utils/Add";
 
 const Home = () => {
+  const [desc, setDesc] = useState([]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const setDataDesc = (data) => {
+    setDesc(data.result);
+  };
+
+  const getData = async () => {
+    const res = await fetch("http://localhost:1840/desc");
+    const data = await res.json();
+    setDesc(data.result);
+  };
+
   return (
     <div className="flex justify-center pt-14">
       <div className="flex-col w-full max-w-4xl px-4">
         {/* Header */}
-        <div className="flex flex-col text-center border py-5">
-          <h1>Todo List App</h1>
-          <div className="flex flex-wrap justify-center gap-2">
-            <input
-              type="text"
-              placeholder="Type here"
-              className="input input-bordered w-full max-w-xs"
-            />
-            <button className="btn btn-accent">Tambah</button>
-          </div>
-        </div>
+        <Add setDesc={setDataDesc} />
         {/* Header */}
 
         {/* Card */}
-        <form className="flex flex-col md:flex-row gap-4 mt-4">
-          <div className="px-10 w-full border">
-            <p>Description</p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <button type="submit" className="flex btn btn-primary">
-              Edit
-            </button>
-            <button type="submit" className="flex btn btn-error">
-              Delete
-            </button>
-          </div>
-        </form>
-
+        {desc.map((items) => {
+          return (
+            <form
+              key={items.id}
+              className="flex flex-col sm:flex-row gap-4 mt-4 p-5 border rounded-lg"
+            >
+              <div className="pb-10 w-full max-w-3xl">
+                <p>{items.description}</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <button type="submit" className="btn btn-info">
+                  Edit
+                </button>
+                <button type="submit" className="btn btn-error">
+                  Delete
+                </button>
+                <button type="submit" className="btn btn-success">
+                  Done
+                </button>
+              </div>
+            </form>
+          );
+        })}
         {/* Card */}
       </div>
     </div>

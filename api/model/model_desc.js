@@ -17,11 +17,9 @@ exports.addData = (req, res) => {
   const sql = `insert into descrip (description) values ('${desc}')`;
 
   db.query(sql, (err, result) => {
-    try {
-      res.status(200).json({ result });
-    } catch (error) {
-      res.status(404).send(err);
-    }
+    if (err) return console.log(err);
+    console.log(result);
+    res.status(200).json({ result: result.insertId });
   });
 };
 
