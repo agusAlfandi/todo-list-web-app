@@ -3,7 +3,7 @@ import ButtonAdd from "../utils/buttonAdd";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
-const Add = () => {
+const Add = ({ sendLink, goTo }) => {
   const queryClient = useQueryClient();
   const [add, setAdd] = useState("");
 
