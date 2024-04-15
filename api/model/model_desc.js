@@ -18,8 +18,8 @@ exports.addData = (req, res) => {
 
   db.query(sql, (err, result) => {
     if (err) return console.log(err);
-    console.log(result);
-    res.status(200).json({ result: result.insertId });
+
+    res.status(200).send("Berhasil menambah data");
   });
 };
 

@@ -5,7 +5,7 @@ const port = 1840;
 
 const description = require("./controller/controller_desc");
 
-app.use(express.json({credentials: true, origin: "http://localhost:3000"}));
+app.use(express.json({ credentials: true, origin: "http://localhost:3000" }));
 app.use(cors());
 
 app.use("/desc", description);
