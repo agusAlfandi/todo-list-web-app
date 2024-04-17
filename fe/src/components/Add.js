@@ -1,11 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ButtonAdd from "../utils/buttonAdd";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
-const Add = ({ sendLink, goTo }) => {
+const getID = async () => {
+  const res = await axios.get(`http://localhost:1840/desc/${158}`);
+  return res.data.result;
+};
+
+const Add = () => {
   const queryClient = useQueryClient();
+  const editData = queryClient.getQueryData("editData", () => getID());
   const [add, setAdd] = useState("");
+
+  if (editData) {
+    console.log(editData);
+  } else {
+    console.log("hasil ksong");
+  }
+
+  // useEffect(() => {
+  //   if (editData) {
+  //     console.log("edit", editData);
+  //     setAdd(editData);
+  //   }
+  // }, [editData]);
 
   // mutation add data
   const addData = useMutation({
@@ -13,7 +32,7 @@ const Add = ({ sendLink, goTo }) => {
       return axios.post("http://localhost:1840/desc/add", { desc: addDesc });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["description"]);
+      queryClient.invalidateQueries({ queryKey: ["description"] });
     },
   });
 
@@ -37,6 +56,7 @@ const Add = ({ sendLink, goTo }) => {
           setAdd={setAdd}
           addData={() => addData.mutate(add)}
           Data={add}
+          // goTo={sharedRef}
         />
         {/* button add */}
       </div>

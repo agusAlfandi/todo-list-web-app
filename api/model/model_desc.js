@@ -28,11 +28,9 @@ exports.getDataById = (req, res) => {
 
   const sql = `select * from descrip where id = '${id}'`;
   db.query(sql, (err, result) => {
-    try {
-      res.status(200).json({ description: result });
-    } catch (error) {
-      res.status(404).send(err);
-    }
+    if (err) return console.log(err, "gagal mengambil data by id");
+
+    res.status(200).json({ result });
   });
 };
 
@@ -50,7 +48,7 @@ exports.updateData = (req, res) => {
 };
 
 exports.deleteData = (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
 
   const sql = `delete from descrip where id = '${id}'`;
   db.query(sql, (err, result) => {

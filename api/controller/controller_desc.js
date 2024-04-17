@@ -24,7 +24,7 @@ router.post("/update", (req, res) => {
   updateData(req, res);
 });
 
-router.post("/delete", (req, res) => {
+router.post("/delete/:id", (req, res) => {
   deleteData(req, res);
 });
 
