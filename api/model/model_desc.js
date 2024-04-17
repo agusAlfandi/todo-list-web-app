@@ -24,12 +24,12 @@ exports.addData = (req, res) => {
 };
 
 exports.getDataById = (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
 
   const sql = `select * from descrip where id = '${id}'`;
   db.query(sql, (err, result) => {
     try {
-      res.status(200).json({ result });
+      res.status(200).json({ description: result });
     } catch (error) {
       res.status(404).send(err);
     }
