@@ -1,40 +1,18 @@
 import React, { useEffect, useState } from "react";
 import ButtonAdd from "../utils/buttonAdd";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-
-const getID = async () => {
-  const res = await axios.get(`http://localhost:1840/desc/${158}`);
-  return res.data.result;
-};
+import { useCreateData } from "../services/mutation";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Add = () => {
   const queryClient = useQueryClient();
-  const editData = queryClient.getQueryData("editData", () => getID());
   const [add, setAdd] = useState("");
+  const createDescMutatution = useCreateData();
+  // const { isSuccess, data } = useDataByID();
 
-  if (editData) {
-    console.log(editData);
-  } else {
-    console.log("hasil ksong");
-  }
-
-  // useEffect(() => {
-  //   if (editData) {
-  //     console.log("edit", editData);
-  //     setAdd(editData);
-  //   }
-  // }, [editData]);
-
-  // mutation add data
-  const addData = useMutation({
-    mutationFn: (addDesc) => {
-      return axios.post("http://localhost:1840/desc/add", { desc: addDesc });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["description"] });
-    },
-  });
+  const cache = queryClient.getQueryData("getDataById");
+  useEffect(() => {
+    if (cache) console.log(cache);
+  }, [cache]);
 
   return (
     <div className="flex flex-col text-center py-5">
@@ -54,9 +32,8 @@ const Add = () => {
         {/* button add */}
         <ButtonAdd
           setAdd={setAdd}
-          addData={() => addData.mutate(add)}
+          addData={() => createDescMutatution.mutate(add)}
           Data={add}
-          // goTo={sharedRef}
         />
         {/* button add */}
       </div>

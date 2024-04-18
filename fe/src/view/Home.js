@@ -1,24 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Add from "../components/Add";
 import Card from "../components/Card";
-import { useQuery } from "@tanstack/react-query";
+import { useData } from "../services/queries";
 
 const Home = () => {
   const [desc, setDesc] = useState([]);
-
-  const getData = async () => {
-    const res = await fetch("http://localhost:1840/desc");
-    const data = await res.json();
-    return data.result;
-  };
-
-  const { isSuccess, data } = useQuery({
-    queryKey: ["description"],
-    queryFn: getData,
-  });
+  const [id, setId] = useState(0);
+  const { isSuccess, data } = useData();
 
   useEffect(() => {
-    if (isSuccess) return setDesc(data);
+    if (isSuccess) {
+      data.map((item) => setId(item.id));
+      setDesc(data);
+    }
   }, [data, isSuccess]);
 
   return (
