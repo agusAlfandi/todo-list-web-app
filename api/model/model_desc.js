@@ -35,7 +35,8 @@ exports.getDataById = (req, res) => {
 };
 
 exports.updateData = (req, res) => {
-  const { id, desc } = req.body;
+  const { id } = req.params;
+  const { desc } = req.body;
 
   const sql = `update descrip set description = '${desc}' where id = '${id}'`;
   db.query(sql, (err, result) => {

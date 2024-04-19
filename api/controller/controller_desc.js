@@ -20,7 +20,7 @@ router.post("/add", (req, res) => {
   addData(req, res);
 });
 
-router.post("/update", (req, res) => {
+router.post("/update/:id", (req, res) => {
   updateData(req, res);
 });
 

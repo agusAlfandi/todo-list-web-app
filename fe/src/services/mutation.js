@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createDataAPI, updateDataAPI } from "./api";
 
-export const useCreateData = () => {
+export const UseCreateData = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) => createDataAPI(data),
@@ -9,11 +9,10 @@ export const useCreateData = () => {
   });
 };
 
-export const useUpdateData = () => {
+export const UseUpdateData = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) => updateDataAPI(data),
-    onSuccess: (data) =>
-      queryClient.invalidateQueries("description", { id: data.id }),
+    onSuccess: () => queryClient.invalidateQueries("description"),
   });
 };

@@ -1,14 +1,14 @@
 import React from "react";
 
-const ButtonAdd = ({ setAdd, addData, Data }) => {
+const ButtonAdd = ({ setValueAdd, addData, Data }) => {
   return (
     <div>
       <button
-        // type="submit"
+        type="submit"
         onClick={() => {
           if (!Data) return alert("Field tidak boleh kosong");
           addData();
-          setAdd("");
+          setValueAdd("");
         }}
         className="btn btn-accent"
       >

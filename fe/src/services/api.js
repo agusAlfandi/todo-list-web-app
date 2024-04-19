@@ -1,5 +1,4 @@
 import axios from "axios";
-// import
 
 const BASE_URL = "http://localhost:1840";
 const axiosInstanse = axios.create({ baseURL: BASE_URL });
@@ -14,7 +13,7 @@ export const createDataAPI = async (data) => {
 };
 
 export const updateDataAPI = async (data) => {
-  return await axiosInstanse.post("/desc/update", {
+  return await axiosInstanse.post(`/desc/update/${data.id}`, {
     id: data.id,
     desc: data.desc,
   });

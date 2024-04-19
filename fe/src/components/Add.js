@@ -1,38 +1,59 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ButtonAdd from "../utils/buttonAdd";
-import { useCreateData } from "../services/mutation";
-import { useQueryClient } from "@tanstack/react-query";
+import { UseCreateData, UseUpdateData } from "../services/mutation";
+import { useAtom } from "jotai";
+import { dataAtom } from "../atom/atom";
 
 const Add = () => {
-  const queryClient = useQueryClient();
   const [add, setAdd] = useState("");
-  const createDescMutatution = useCreateData();
-  // const { isSuccess, data } = useDataByID();
+  const [data, setData] = useAtom(dataAtom);
 
-  const cache = queryClient.getQueryData("getDataById");
+  const createDescMutation = UseCreateData();
+  const updateDataMutation = UseUpdateData();
+
+  // const blockedData = useMemo(() => data, [data]);
+
+  const handleDataDesc = (dataDesc) => {
+    if (!data) {
+      createDescMutation.mutate(dataDesc);
+    } else {
+      setData("");
+      updateDataMutation.mutate({ id: data.id, desc: dataDesc });
+    }
+  };
+
+  // useEffect(() => {
+  //   if (blockedData) {
+  //     setAdd(blockedData);
+  //   }
+  // }, [blockedData]);
+
   useEffect(() => {
-    if (cache) console.log(cache);
-  }, [cache]);
+    if (data) {
+      setAdd(data.description);
+    }
+  }, [data]);
 
   return (
     <div className="flex flex-col text-center py-5">
       <h1 className="py-5">Todo List App</h1>
       <div className="flex flex-wrap justify-center gap-2">
         {/* Text input */}
+        {/* <input type="text" name="id" hidden onChange={() => setId(data.id)} /> */}
         <input
           required
           type="text"
           placeholder="Type here"
+          value={add}
           className="input input-bordered w-full max-w-3xl rounded-md"
           onChange={(e) => setAdd(e.target.value)}
-          value={add}
         />
         {/* Text input */}
 
         {/* button add */}
         <ButtonAdd
-          setAdd={setAdd}
-          addData={() => createDescMutatution.mutate(add)}
+          setValueAdd={setAdd}
+          addData={() => handleDataDesc(add)}
           Data={add}
         />
         {/* button add */}
