@@ -23,3 +23,7 @@ export const getDataByIDAPI = async (id) => {
   const res = await axiosInstanse.get(`/desc/${id}`);
   return res.data.result;
 };
+
+export const deleteDataAPI = async (id) => {
+  return await axiosInstanse.post(`/desc/delete/${id}`);
+};

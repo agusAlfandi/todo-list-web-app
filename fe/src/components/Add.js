@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ButtonAdd from "../utils/buttonAdd";
 import { UseCreateData, UseUpdateData } from "../services/mutation";
 import { useAtom } from "jotai";
@@ -11,8 +11,6 @@ const Add = () => {
   const createDescMutation = UseCreateData();
   const updateDataMutation = UseUpdateData();
 
-  // const blockedData = useMemo(() => data, [data]);
-
   const handleDataDesc = (dataDesc) => {
     if (!data) {
       createDescMutation.mutate(dataDesc);
@@ -21,12 +19,6 @@ const Add = () => {
       updateDataMutation.mutate({ id: data.id, desc: dataDesc });
     }
   };
-
-  // useEffect(() => {
-  //   if (blockedData) {
-  //     setAdd(blockedData);
-  //   }
-  // }, [blockedData]);
 
   useEffect(() => {
     if (data) {
@@ -39,7 +31,6 @@ const Add = () => {
       <h1 className="py-5">Todo List App</h1>
       <div className="flex flex-wrap justify-center gap-2">
         {/* Text input */}
-        {/* <input type="text" name="id" hidden onChange={() => setId(data.id)} /> */}
         <input
           required
           type="text"
